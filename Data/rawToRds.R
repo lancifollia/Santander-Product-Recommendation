@@ -2,7 +2,7 @@
 rm(list=ls())
 
 # Set working directory
-setwd("/Users/lancifkim/kaggle/santander-product-recommendation")
+setwd("/Users/sjkim/kaggle/santander-product-recommendation")
 
 # Load the required libraries
 library(data.table)
@@ -58,17 +58,11 @@ table(train[[12]])
 test[[12]] <- as.character(test[[12]])
 
 # Convert the dates columns to dates
-# lancif: `format="%m/%d/%Y"` was it intended?
 train$fecha_dato <- as.Date(train$fecha_dato, format="%Y-%m-%d")
-# test$fecha_dato <- as.Date(test$fecha_dato, format="%m/%d/%Y")
 test$fecha_dato <- as.Date(test$fecha_dato, format="%Y-%m-%d")
-
 train$fecha_alta <- as.Date(train$fecha_alta, format="%Y-%m-%d")
-# test$fecha_alta <- as.Date(test$fecha_alta, format="%m/%d/%Y")
 test$fecha_alta <- as.Date(test$fecha_alta, format="%Y-%m-%d")
-
 train$ult_fec_cli_1t <- as.Date(train$ult_fec_cli_1t, format="%Y-%m-%d")
-# test$ult_fec_cli_1t <- as.Date(test$ult_fec_cli_1t, format="%m/%d/%Y")
 test$ult_fec_cli_1t <- as.Date(test$ult_fec_cli_1t, format="%Y-%m-%d")
 
 # Convert the numerical entry levels in train to one common numeric encoding
@@ -91,8 +85,6 @@ sameTrainTestClass <- sapply(test, class) == sapply(train[, 1:nbTestCol,
 table(sameTrainTestClass)
 # Train and test columns should be of the same class, otherwise debug
 if(any(!sameTrainTestClass)) browser() 
-
-# lancif: check point
 
 # Extract a small fraction of the data using a random subset of ncodpers ids
 # and using the first fraction of the data (this way there are unmatched

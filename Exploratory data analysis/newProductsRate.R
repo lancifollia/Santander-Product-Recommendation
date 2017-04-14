@@ -4,14 +4,14 @@
 rm(list=ls())
 
 # Set working directory
-setwd("C:/Users/Tom/Documents/Kaggle/Santander")
+setwd("/Users/sjkim/kaggle/santander-product-recommendation")
 
 # Load the required libraries
 library(data.table)
 library(bit64)
 
 # Target date 
-targetDate <- "12-11-2016"
+targetDate <- "15-04-2017"
 
 # Time between products rate plots in seconds
 showAllProductPlots <- TRUE
@@ -35,13 +35,14 @@ if(loadCounts && file.exists(savePath)){
 } else{
   
   # Read the raw data
-  train <- readRDS("Data/train.rds")
+  train <- readRDS("train.rds")
   
   # List the target columns
   targetCols <- names(train)[-(1:24)]
   nbTargetCols <- length(targetCols)
   
   # List all unique sorted dates
+  # lancif: [-1]?
   sortedDates <- sort(unique(train$fecha_dato))[-1]
   nbDates <- length(sortedDates)
   
