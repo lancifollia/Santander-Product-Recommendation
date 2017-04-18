@@ -17,7 +17,10 @@
 rm(list=ls())
 
 # Set working directory
-setwd("C:/Users/Tom/Documents/Kaggle/Santander/Feature engineering")
+setwd("/Users/sjkim/kaggle/santander-product-recommendation")
+
+# Target date 
+targetDate <- "15-04-2017"
 
 # Load the required libraries
 library(data.table)
@@ -69,9 +72,6 @@ trainBackString <- ifelse(summaryType != "test",
                           paste0("Back", trainBackPeriods[nbTrainBackPeriods],
                                  "-", trainBackPeriods[1]), "")
 
-# Target date 
-targetDate <- "12-11-2016"
-
 # Create the target folder
 folderPath <- file.path(getwd(), targetDate, paste0(summaryType, fractionFlag,
                                                     excludeString,
@@ -117,15 +117,15 @@ nbMonthsBackProdCounts <- length(monthsBackProdCounts)
 
 # Read in the raw cleaned data
 if(summaryType=="test"){
-  trainPart <- readRDS(paste0("../Data/train", fractionFlag, ".rds"))
-  testPart <- readRDS(paste0("../Data/test", fractionFlag, ".rds"))
+  trainPart <- readRDS(paste0("train", fractionFlag, ".rds"))
+  testPart <- readRDS(paste0("test", fractionFlag, ".rds"))
   
   # Combine the train and test records
   rawData <- rbindlist(list(trainPart, testPart), fill=TRUE)
   setkey(rawData, ncodpers)
 } else{
   # Drop the last trainBackPeriod months
-  rawData <- readRDS(paste0("../Data/train", fractionFlag, ".rds"))
+  rawData <- readRDS(paste0("train", fractionFlag, ".rds"))
 }
 
 # Load the estimated relative map contributions

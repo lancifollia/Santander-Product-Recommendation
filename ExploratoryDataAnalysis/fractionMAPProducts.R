@@ -21,7 +21,7 @@ sleepTime <- 2
 
 # Monthly counts path
 loadFn <- "monthlyTransitionCounts.rds"
-loadPath <- file.path(getwd(), "Feature engineering", targetDate,
+loadPath <- file.path(getwd(), "FeatureEngineering", targetDate,
                       loadFn)
 
 # Save parameters
@@ -29,9 +29,9 @@ loadContributions <- TRUE
 saveContributions <- TRUE
 saveFnMonthlyMAP <- "monthlyMAPContributions.rds"
 saveFnRelProdCounts <- "monthlyRelativeProductCounts.rds"
-savePathMonthlyMAP <- file.path(getwd(), "Feature engineering", targetDate,
+savePathMonthlyMAP <- file.path(getwd(), "FeatureEngineering", targetDate,
                                 saveFnMonthlyMAP)
-savePathRelProdCounts <- file.path(getwd(), "Feature engineering", targetDate,
+savePathRelProdCounts <- file.path(getwd(), "FeatureEngineering", targetDate,
                                    saveFnRelProdCounts)
 
 

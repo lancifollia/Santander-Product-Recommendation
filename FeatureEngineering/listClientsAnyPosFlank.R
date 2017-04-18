@@ -34,5 +34,5 @@ for(trainCol in 25:48){
 
 # Store clients with at least one positive flank
 posFlankClients <- sort(posFlankClients)
-saveRDS(posFlankClients, file.path(getwd(), "Feature engineering", targetDate,
-                                   "positive flank clients.rds"))
+saveRDS(posFlankClients, file.path(getwd(), "FeatureEngineering", targetDate,
+                                   "positiveFlankClients.rds"))

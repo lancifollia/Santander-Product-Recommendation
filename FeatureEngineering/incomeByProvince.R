@@ -50,4 +50,4 @@ provIncomes <- rawData[, .(.N, meanLogIncome = mean(logRenta, na.rm = TRUE)),
 provIncomes <- provIncomes[order(cod_prov), ]
 
 # Store the imputed incomes
-saveRDS(provIncomes, file.path(getwd(), "Feature engineering", targetDate, "province incomes.rds"))
+saveRDS(provIncomes, file.path(getwd(), "FeatureEngineering", targetDate, "provinceIncomes.rds"))

@@ -6,14 +6,14 @@
 rm(list=ls())
 
 # Set working directory
-setwd("C:/Users/Tom/Documents/Kaggle/Santander/Feature engineering")
+setwd("/Users/sjkim/kaggle/santander-product-recommendation/FeatureEngineering")
 
 # Load the required libraries
 library(data.table)
 library(bit64)
 
 # Target date
-targetDate <- "12-11-2016"
+targetDate <- "15-04-2017"
 
 
 ###################################################################

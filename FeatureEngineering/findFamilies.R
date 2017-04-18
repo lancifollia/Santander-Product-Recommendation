@@ -5,20 +5,20 @@
 rm(list=ls())
 
 # Set working directory
-setwd("C:/Users/Tom/Documents/Kaggle/Santander/Feature engineering")
+setwd("/Users/sjkim/kaggle/santander-product-recommendation")
 
 # Load the required libraries
 library(data.table)
 library(bit64)
 
 # Target date
-targetDate <- "12-11-2016"
+targetDate <- "15-04-2017"
 
 
 ###################################################################
 
 # Read in the raw cleaned data
-train <- readRDS(paste0("../Data/train.rds"))
+train <- readRDS(paste0("train.rds"))
 
 # Combine the train and test records
 setkey(train, ncodpers)
@@ -39,5 +39,5 @@ familyUsers <- sort(unique(train[renta %in% consideredFamilyIncomes$renta,
                                  ncodpers]))
 
 # Store the family incomes
-saveRDS(consideredFamilyIncomes, file.path(getwd(), targetDate,
-                                           "family incomes.rds"))
+saveRDS(consideredFamilyIncomes, file.path(getwd(), targetDate, "FeatureEngineering",
+                                           "familyIncomes.rds"))

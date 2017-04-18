@@ -26,5 +26,5 @@ May15Clients <- sort(unique(train[fecha_dato == "2015-05-28", ncodpers]))
 June15Clients <- sort(unique(train[fecha_dato == "2015-06-28", ncodpers]))
 
 # Store the May and June clients
-saveRDS(May15Clients, file.path(getwd(), "Feature engineering", targetDate, "May15 clients.rds"))
-saveRDS(June15Clients, file.path(getwd(), "Feature engineering", targetDate, "June15 clients.rds"))
+saveRDS(May15Clients, file.path(getwd(), "FeatureEngineering", targetDate, "may15Clients.rds"))
+saveRDS(June15Clients, file.path(getwd(), "FeatureEngineering", targetDate, "june15Clients.rds"))

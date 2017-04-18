@@ -21,7 +21,7 @@ sleepTime <- 3
 loadCounts <- TRUE
 saveCounts <- TRUE
 saveFn <- "monthlyTransitionCounts.rds"
-savePath <- file.path(getwd(), "Feature engineering", targetDate,
+savePath <- file.path(getwd(), "FeatureEngineering", targetDate,
                       saveFn)
 
 
