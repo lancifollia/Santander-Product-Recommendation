@@ -19,8 +19,8 @@ targetDate <- "15-04-2017"
 ###################################################################
 
 # Read in the raw cleaned data and general feature files
-train <- readRDS(paste0("../Data/train.rds"))
-test <- readRDS(paste0("../Data/test.rds"))
+train <- readRDS(paste0("../train.rds"))
+test <- readRDS(paste0("../test.rds"))
 
 # Combine the train and test records
 rawData <- rbindlist(list(train, test), fill=TRUE)
@@ -29,7 +29,7 @@ setkey(rawData, ncodpers)
 # Load the features files
 trainFeatures <- readRDS(file.path(getwd(), targetDate,
                                    "trainSmallOrdered/featuresCat.rds"))
-testFeatures <- readRDS(file.path(getwd(), targetDate, "test featuresCat.rds"))
+testFeatures <- readRDS(file.path(getwd(), targetDate, "testFeaturesCat.rds"))
 allFeatures <- rbindlist(list(trainFeatures, testFeatures), fill=TRUE)
 
 # Map the features to the values of a raw data column

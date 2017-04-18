@@ -39,5 +39,5 @@ familyUsers <- sort(unique(train[renta %in% consideredFamilyIncomes$renta,
                                  ncodpers]))
 
 # Store the family incomes
-saveRDS(consideredFamilyIncomes, file.path(getwd(), targetDate, "FeatureEngineering",
+saveRDS(consideredFamilyIncomes, file.path(getwd(), "FeatureEngineering", targetDate,
                                            "familyIncomes.rds"))

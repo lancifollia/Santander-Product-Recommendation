@@ -17,7 +17,7 @@
 rm(list=ls())
 
 # Set working directory
-setwd("/Users/sjkim/kaggle/santander-product-recommendation")
+setwd("/Users/sjkim/kaggle/santander-product-recommendation/FeatureEngineering")
 
 # Target date 
 targetDate <- "15-04-2017"
@@ -83,20 +83,20 @@ folderPath <- paste0(folderPath, folderPathExtension, validationPathExtension)
 dir.create(folderPath, showWarnings = FALSE)
 
 # Feature mapping file name
-featureMapFn <- "feature mapping.rds"
+featureMapFn <- "featureMapping.rds"
 
 # Family incomes file name
-familyIncomeFn <- "family incomes.rds"
+familyIncomeFn <- "familyIncomes.rds"
 
 # Mean log province incomes file name
-meanProvinceIncomeFn <- "province incomes.rds"
+meanProvinceIncomeFn <- "provinceIncomes.rds"
 
 # Client available ids file names for May and June 2015
-clientsMay15Fn <- "May15 clients.rds"
-clientsJune15Fn <- "June15 clients.rds"
+clientsMay15Fn <- "may15Clients.rds"
+clientsJune15Fn <- "june15Clients.rds"
 
 # Client ids with at least one positive flank between Jan 15 and May 16
-clientsPosFlankFn <- "positive flank clients.rds"
+clientsPosFlankFn <- "positiveFlankClients.rds"
 
 # Target variable constants
 rawDataLags <- c(1, 2, 3, 4, 5, 6, 12)
