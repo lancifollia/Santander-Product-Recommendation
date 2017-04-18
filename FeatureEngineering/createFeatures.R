@@ -117,15 +117,15 @@ nbMonthsBackProdCounts <- length(monthsBackProdCounts)
 
 # Read in the raw cleaned data
 if(summaryType=="test"){
-  trainPart <- readRDS(paste0("train", fractionFlag, ".rds"))
-  testPart <- readRDS(paste0("test", fractionFlag, ".rds"))
+  trainPart <- readRDS(paste0("../train", fractionFlag, ".rds"))
+  testPart <- readRDS(paste0("../test", fractionFlag, ".rds"))
   
   # Combine the train and test records
   rawData <- rbindlist(list(trainPart, testPart), fill=TRUE)
   setkey(rawData, ncodpers)
 } else{
   # Drop the last trainBackPeriod months
-  rawData <- readRDS(paste0("train", fractionFlag, ".rds"))
+  rawData <- readRDS(paste0("../train", fractionFlag, ".rds"))
 }
 
 # Load the estimated relative map contributions
