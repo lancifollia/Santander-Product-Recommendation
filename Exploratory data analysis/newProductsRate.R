@@ -15,7 +15,7 @@ targetDate <- "15-04-2017"
 
 # Time between products rate plots in seconds
 showAllProductPlots <- TRUE
-sleepTime <- 2
+sleepTime <- 3
 
 # Save parameters
 loadCounts <- TRUE
@@ -42,7 +42,7 @@ if(loadCounts && file.exists(savePath)){
   nbTargetCols <- length(targetCols)
   
   # List all unique sorted dates
-  # lancif: [-1]?
+  # lancif: why except [-1]?
   sortedDates <- sort(unique(train$fecha_dato))[-1]
   nbDates <- length(sortedDates)
   
@@ -66,10 +66,11 @@ if(loadCounts && file.exists(savePath)){
         as.character(Sys.time()), "\n")
     
     # Positive flank rows calculation
+    # lancif: find triggered (0->1) offsets for targetCol (train data was sorted by `ncodpers`)
     posId <- 1 + which(diff(train$ncodpers) == 0 &
-                         diff(train$fecha_dato, unit="days") < 32 &
-                         train[[targetCol]][-nrow(train)]==0 &
-                         train[[targetCol]][-1]==1)
+                       diff(train$fecha_dato, unit="days") < 32 &
+                       train[[targetCol]][-nrow(train)]==0 &
+                       train[[targetCol]][-1]==1)
     posFlanksCount <- train[posId, .N, fecha_dato]
     matchId <- match(posFlanksCount$fecha_dato, sortedDates)
     allCounts[matchId,i] <- posFlanksCount$N
@@ -93,6 +94,7 @@ if(showAllProductPlots){
     plot(sortedDates, meanCounts, ylim = c(0, max(meanCounts)),
          main=paste0(i, " - RR ", targetCol, " (", sum(counts), ")"), pch=16, 
          col="black")
+    # lancif: why sortedDates[5]("2015-06-28") is a green point?
     points(sortedDates[5], meanCounts[5], pch=16, col="green")
     
     Sys.sleep(sleepTime)

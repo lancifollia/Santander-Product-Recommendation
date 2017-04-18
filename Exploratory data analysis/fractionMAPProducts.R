@@ -5,7 +5,7 @@
 rm(list=ls())
 
 # Set working directory
-setwd("C:/Users/Tom/Documents/Kaggle/Santander")
+setwd("/Users/sjkim/kaggle/santander-product-recommendation")
 
 # Load the required libraries
 library(data.table)
@@ -13,10 +13,10 @@ library(bit64)
 library(forecast)
 
 # Target date 
-targetDate <- "12-11-2016"
+targetDate <- "15-04-2017"
 
 # Time between products rate plots in seconds
-showAllProductPlots <- !TRUE
+showAllProductPlots <- TRUE
 sleepTime <- 2
 
 # Monthly counts path
@@ -47,7 +47,7 @@ if(loadContributions && file.exists(savePathMonthlyMAP)){
   sortedDates <- as.Date(rownames(relativeContributions))
 } else{
   # Read the raw data
-  train <- readRDS("Data/train.rds")
+  train <- readRDS("train.rds")
   
   # List the target columns
   targetCols <- names(train)[-(1:24)]
@@ -55,6 +55,7 @@ if(loadContributions && file.exists(savePathMonthlyMAP)){
   
   # List all unique sorted dates
   sortedDates <- sort(unique(train$fecha_dato))
+  # lacif: -1? which month is excluded?
   nbDates <- length(sortedDates) - 1
   
   # Store all monthly relative MAP contributions
@@ -74,16 +75,17 @@ if(loadContributions && file.exists(savePathMonthlyMAP)){
                        train[fecha_dato==sortedDates[i], ncodpers]))
     
     secondLastMonth <- as.matrix(train[fecha_dato==sortedDates[i] &
-                                         ncodpers %in% targetNcodPers,
+                                       ncodpers %in% targetNcodPers,
                                        targetCols, with=FALSE])
     lastMonth <- as.matrix(train[fecha_dato==sortedDates[i+1] &
-                                   ncodpers %in% targetNcodPers,
+                                 ncodpers %in% targetNcodPers,
                                  targetCols, with=FALSE])
     productChange <- (lastMonth - secondLastMonth) == 1
     productChangesMonth <- colSums(productChange, na.rm = TRUE)
     userProducts <- rowSums(productChange, na.rm = TRUE)
     
     # Loop over all products to calculate their relative MAP contributions
+    # lancif: MAP contributions? what's it?
     for(j in 1:nbTargetCols){
       relativeContributions[i,j] <-
         sum(productChange[userProducts>0, j] / 
@@ -97,7 +99,7 @@ if(loadContributions && file.exists(savePathMonthlyMAP)){
   sortedDates <- sortedDates[-1]
   
   # Plot the productsPerChangeUser over time
-  # plot(productsPerChangeUser)
+  plot(productsPerChangeUser)
 }
 
 # Study the relative MAP contributions
@@ -146,6 +148,8 @@ meanCountContributionRatio <- colSums(allCounts) /
 plot(meanCountContributionRatio)
 
 # Zoom in on the ratio for products 5, 22 and 23
+# lancif: why [-17]? rowsize(relativeContributions) is 16. The 17th row is not exist.
+# lancif: What insight should I get from this result?
 plot(allCounts[,3]/rowSums(allCounts)/relativeContributions[-17,3])
 plot(allCounts[,5]/rowSums(allCounts)/relativeContributions[-17,5])
 plot(allCounts[,7]/rowSums(allCounts)/relativeContributions[-17,7])
@@ -158,6 +162,7 @@ plot(allCounts[,22]/rowSums(allCounts)/relativeContributions[-17,22])
 plot(allCounts[,23]/rowSums(allCounts)/relativeContributions[-17,23])
 plot(allCounts[,24]/rowSums(allCounts)/relativeContributions[-17,24])
 
+# lancif: magic number 0.87
 meanCountContributionRatio <- rep(0.87, 24)
 for(i in 1:24){
   countContributionRatio <- mean(
@@ -171,6 +176,7 @@ for(i in 1:24){
 meanCountContributionRatio[23] <- 1.003 * meanCountContributionRatio[22]  
 
 # Add the probed public leaderboard MAP contributions
+# lancif: Where can I find these values?
 testContributions[18,6] <- 0.0032092
 testContributions[3,6] <- 0.0096681
 testContributions[24,6] <- 0.0086845

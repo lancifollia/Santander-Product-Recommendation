@@ -5,21 +5,21 @@
 rm(list=ls())
 
 # Set working directory
-setwd("C:/Users/Tom/Documents/Kaggle/Santander/Feature engineering")
+setwd("/Users/sjkim/kaggle/santander-product-recommendation")
 
 # Load the required libraries
 library(data.table)
 library(bit64)
 
 # Target date
-targetDate <- "12-11-2016"
+targetDate <- "15-04-2017"
 
 
 ###################################################################
 
 # Read in the raw cleaned data
-train <- readRDS(paste0("../Data/train.rds"))
-test <- readRDS(paste0("../Data/test.rds"))
+train <- readRDS(paste0("train.rds"))
+test <- readRDS(paste0("test.rds"))
 
 # Combine the train and test records
 rawData <- rbindlist(list(train[, 1:24, with=FALSE], test), fill=TRUE)
@@ -50,4 +50,4 @@ provIncomes <- rawData[, .(.N, meanLogIncome = mean(logRenta, na.rm = TRUE)),
 provIncomes <- provIncomes[order(cod_prov), ]
 
 # Store the imputed incomes
-saveRDS(provIncomes, file.path(getwd(), targetDate, "province incomes.rds"))
+saveRDS(provIncomes, file.path(getwd(), "Feature engineering", targetDate, "province incomes.rds"))

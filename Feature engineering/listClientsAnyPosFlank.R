@@ -5,20 +5,20 @@
 rm(list=ls())
 
 # Set working directory
-setwd("C:/Users/Tom/Documents/Kaggle/Santander/Feature engineering")
+setwd("/Users/sjkim/kaggle/santander-product-recommendation")
 
 # Load the required libraries
 library(data.table)
 library(bit64)
 
 # Target date
-targetDate <- "12-11-2016"
+targetDate <- "15-04-2017"
 
 
 ###################################################################
 
 # Read in the raw cleaned data
-train <- readRDS(paste0("../Data/train.rds"))
+train <- readRDS(paste0("train.rds"))
 
 # Extract clients that have any positive flanks
 posFlankClients <- integer(0)
@@ -34,5 +34,5 @@ for(trainCol in 25:48){
 
 # Store clients with at least one positive flank
 posFlankClients <- sort(posFlankClients)
-saveRDS(posFlankClients, file.path(getwd(), targetDate,
+saveRDS(posFlankClients, file.path(getwd(), "Feature engineering", targetDate,
                                    "positive flank clients.rds"))
