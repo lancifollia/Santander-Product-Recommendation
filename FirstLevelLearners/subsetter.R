@@ -4,7 +4,7 @@
 rm(list=ls())
 
 # Set working directory
-setwd("C:/Users/Tom/Documents/Kaggle/Santander")
+setwd("/Users/sjkim/kaggle/santander-product-recommendation")
 
 # Load the required libraries
 library(data.table)
@@ -15,19 +15,20 @@ set.seed(14) # Used to generate the first level folds
 
 # First level K in K-fold cross validation
 K1 <- 5
+# K1 <- 10
 
 # Target date
-targetDate <- "12-11-2016"
+targetDate <- "15-04-2017"
 
 
 #####################################################################
 
 # Create the target folder if it does not exist yet
-targetFolder <- file.path(getwd(), "Second level learners", targetDate)
+targetFolder <- file.path(getwd(), "SecondLevelLearners", targetDate)
 dir.create(targetFolder, showWarnings = FALSE)
 
 # Read the train data
-train <- readRDS(file.path(getwd(), "Data", "train.rds"))
+train <- readRDS(file.path(getwd(), "train.rds"))
 
 # Extract the unique ncodpers
 uniqueNcodpers <- sort(unique(train$ncodpers))
@@ -41,6 +42,6 @@ for(j in 1:K1){
 }
 
 # Save the folds information
-savePath <- file.path(targetFolder, paste("first level ncodpers", K1,
+savePath <- file.path(targetFolder, paste("firstLevelNcodpers", K1,
                                           "folds.rds"))
 saveRDS(firstFoldIds, savePath)

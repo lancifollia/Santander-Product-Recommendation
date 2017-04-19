@@ -6,14 +6,14 @@
 rm(list=ls())
 
 # Set working directory
-setwd("C:/Users/Tom/Documents/Kaggle/Santander/Model weights")
+setwd("/Users/sjkim/kaggle/santander-product-recommendation/ModelWeights")
 
 # Load the required libraries
 library(data.table)
 library(stringr)
 
 # Target date 
-targetDate <- "12-11-2016"
+targetDate <- "15-04-2017"
 
 # List the month back weights - give more weight to models from 12 months back
 monthsBackModels <- 0:15
@@ -169,4 +169,6 @@ for(i in 1:nbModels){
 # Store the model weights
 saveFolder <- file.path(getwd(), targetDate)
 dir.create(saveFolder, showWarnings = FALSE)
-saveRDS(modelWeights, file.path(saveFolder, "model weights first.rds"))
+saveRDS(modelWeights, file.path(saveFolder, "modelWeightsFirst.rds"))
+
+cat("Done")

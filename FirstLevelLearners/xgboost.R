@@ -4,7 +4,7 @@
 rm(list=ls()); gc()
 
 # Set working directory
-setwd("C:/Users/Tom/Documents/Kaggle/Santander")
+setwd("/Users/sjkim/kaggle/santander-product-recommendation")
 
 # Load the required libraries
 library(data.table)
@@ -20,11 +20,12 @@ library(stringr)
 set.seed(14)
 
 # Target date
-targetDate <- "12-11-2016"
+targetDate <- "15-04-2017"
 
 # Train features folder
 trainModelFolder <- "train"
-saveFolderExtension <- " Top 100 monthProduct 200 rounds 20 Folds" 
+saveFolderExtension <- " All features 100 rounds 5 Folds" 
+# saveFolderExtension <- " Top 100 monthProduct 200 rounds 20 Folds" 
 # saveFolderExtension <- "" # Useful for stacking and ensembling
 testModel <- grepl("test", trainModelFolder)
 
@@ -32,7 +33,8 @@ testModel <- grepl("test", trainModelFolder)
 overwrite <- FALSE
 
 # Feature selection options
-featureSelection <- TRUE
+# featureSelection <- TRUE
+featureSelection <- FALSE
 topFeatures <- 100
 featureSelectionMode <- c("monthProduct", "product")[1]
 
@@ -58,7 +60,8 @@ underSampleNomPensNoNomina <- FALSE # Keep FALSE!
 maxMonthNomPensNoNomina <- 150
 
 # Xgboost hyperparameters
-nrounds <- 2e2
+nrounds <- 1e2
+# nrounds <- 2e2
 # Different hyperparameter settings:
 # Set 1 is used for a limited number of positive flanks (<1000).
 # Set 2 is a deeper model and is used to model >=1000 positive flanks
@@ -90,11 +93,11 @@ hyperparSetExtended <- list(nrounds = nrounds, etaC = 10, subsample = 1,
 # K in K-fold cross validation. Setting K to one results in building a single
 # model. K-fold cross validation is used in the first phase of generating 
 # base models. The second phase is the out of training time validation. 
-baseK <- 20
+baseK <- 5
 if(baseK <= 1) browser()
-K <- 20
+K <- 5
 saveBaseModels <- TRUE
-skipCommonModel <- TRUE
+skipCommonModel <- FALSE
 # skipCommonSecondLoop <- TRUE
 
 # Bootstrap options
@@ -107,7 +110,7 @@ if(bootstrap && K>1){
 
 # File name of the stacking folds
 useStackingFolds <- TRUE
-stackingIdsFn <- paste("first level ncodpers", baseK, "folds.rds")
+stackingIdsFn <- paste("firstLevelNcodpers", baseK, "folds.rds")
 
 # Maximum number of allowed train records to handle memory constraints
 maxTrainRecords <- Inf #3e6
@@ -148,7 +151,7 @@ targetVars <- paste0("ind_", baseProducts, "_ult1")
 ############################################################################
 
 # List the feature files in the train model folder
-featuresPath <- file.path(getwd(), "Feature engineering", targetDate, 
+featuresPath <- file.path(getwd(), "FeatureEngineering", targetDate, 
                           trainModelFolder)
 featureFiles <- list.files(featuresPath)[c(3, 10)] #[-c(1,2)] #[-(1:11)])
 featureFiles <- featureFiles[grepl(paste0(ifelse(testModel, "Lag17 ", ""),
@@ -157,6 +160,7 @@ trainFnBases <- gsub(" features.rds$", "", featureFiles)
 batchFeatures <- all(grepl("batch", trainFnBases, ignore.case = TRUE))
 nbFeatureFiles <- length(featureFiles)
 trainFeaturePaths <- paste(featuresPath, featureFiles, sep="/")
+cat(trainFeaturePaths)
 
 # Don't train a model for hasNewProduct when training on all records
 if(!excludeNoNewProducts || testModel){
@@ -226,25 +230,25 @@ while(TRUE){
 }
 
 # Load the target product weights
-dateTargetWeights <- readRDS(file.path(getwd(), "Model weights", targetDate,
-                                       "model weights first.rds"))
+dateTargetWeights <- readRDS(file.path(getwd(), "ModelWeights", targetDate,
+                                       "modelWeightsFirst.rds"))
 
 # Load the feature order when using feature selection
 if(featureSelection){
   if(featureSelectionMode == "monthProduct"){
     featureOrders <-
-      readRDS(file.path(getwd(), "first level learners", targetDate,
+      readRDS(file.path(getwd(), "FirstLevelLearners", targetDate,
                         "product month feature order.rds"))
   } else{
     featureOrders <-
-      readRDS(file.path(getwd(), "first level learners", targetDate,
+      readRDS(file.path(getwd(), "FirstLevelLearners", targetDate,
                         "product feature order.rds"))
   }
 }
 
 # Load the stacking fold ids
 if(useStackingFolds && K>1){
-  stackingFoldsPath <- file.path(getwd(), "Second level learners", targetDate,
+  stackingFoldsPath <- file.path(getwd(), "SecondLevelLearners", targetDate,
                                  stackingIdsFn)
   stackingFolds <- readRDS(stackingFoldsPath)
 }
@@ -287,7 +291,7 @@ for(modelGroupId in 1:nbFeatureFiles){
   # weightDates)]]
   
   # Create the target folder if it does not exist yet
-  saveDir <- file.path(getwd(), "First level learners", targetDate)
+  saveDir <- file.path(getwd(), "FirstLevelLearners", targetDate)
   dir.create(saveDir, showWarnings = FALSE)
   
   # Create the model subfolder if it does not exist yet
@@ -311,8 +315,8 @@ for(modelGroupId in 1:nbFeatureFiles){
   }
   
   # Extract clients that have any positive flanks in the training period
-  posFlankClientsFn <- file.path(getwd(), "Feature engineering", targetDate,
-                                 "positive flank clients.rds")
+  posFlankClientsFn <- file.path(getwd(), "FeatureEngineering", targetDate,
+                                 "positiveFlankClients.rds")
   posFlankClients <- readRDS(posFlankClientsFn)
   if(excludeNoPosFlanks && min(targetIds)>0){
     trainOrig <- trainOrig[ncodpers %in% posFlankClients, ]
