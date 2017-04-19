@@ -349,7 +349,7 @@ if(saveContributions){
   if(!loadContributions){
     relativeContributions <- rbind(relativeContributions, testContributions[,6])
   } else{
-    relativeContributions[17,] <- testContributions[,6]
+    relativeContributions <- rbind(relativeContributions, testContributions[,6])
   }
   rownames(relativeContributions)[17] <- "2016-06-28"
   saveRDS(relativeContributions, savePathMonthlyMAP)

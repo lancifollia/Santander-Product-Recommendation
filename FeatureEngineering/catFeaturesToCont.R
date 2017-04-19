@@ -72,8 +72,8 @@ for(i in 1:nbFeatures){
   }
   
   # Verify that all features are mapped
-  if(!all(unique(allFeatures[[mapping[i,1]]][
-    !is.na(allFeatures[[mapping[i,1]]])]) %in% catVals)) browser()
+  #if(!all(unique(allFeatures[[mapping[i,1]]][
+  #  !is.na(allFeatures[[mapping[i,1]]])]) %in% catVals)) browser()
   
   if(rawDataCol == "canal_entrada") browser()
   
@@ -81,5 +81,5 @@ for(i in 1:nbFeatures){
   featureMapping[[i]] <- list(keys=catVals, values=catMap)
 }
 
-# # Store the feature mapping
-# saveRDS(featureMapping, file.path(getwd(), targetDate, "feature mapping.rds"))
+# Store the feature mapping
+saveRDS(featureMapping, file.path(getwd(), targetDate, "featureMapping.rds"))
