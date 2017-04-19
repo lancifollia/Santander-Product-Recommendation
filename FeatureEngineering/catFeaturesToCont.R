@@ -27,10 +27,10 @@ rawData <- rbindlist(list(train, test), fill=TRUE)
 setkey(rawData, ncodpers)
 
 # Load the features files
-trainFeatures <- readRDS(file.path(getwd(), targetDate,
-                                   "trainSmallOrdered/featuresCat.rds"))
-testFeatures <- readRDS(file.path(getwd(), targetDate, "testFeaturesCat.rds"))
-allFeatures <- rbindlist(list(trainFeatures, testFeatures), fill=TRUE)
+# trainFeatures <- readRDS(file.path(getwd(), targetDate,
+#                                    "trainSmallOrdered/featuresCat.rds"))
+# testFeatures <- readRDS(file.path(getwd(), targetDate, "testFeaturesCat.rds"))
+# allFeatures <- rbindlist(list(trainFeatures, testFeatures), fill=TRUE)
 
 # Map the features to the values of a raw data column
 mapping <- matrix(c("employeeIndex", "ind_empleado",

@@ -4,6 +4,9 @@
 # Clear the workspace
 rm(list=ls())
 
+options(error=recover)
+options(show.error.locations=TRUE)
+
 # Set working directory
 setwd("/Users/sjkim/kaggle/santander-product-recommendation")
 
